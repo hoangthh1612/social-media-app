@@ -1,5 +1,8 @@
 const express = require('express');
 const userRoutes = require('./routes/users')
+const likeRoutes = require('./routes/likes')
+const commentRoutes = require('./routes/comments')
+const postRoutes = require('./routes/posts')
 const authRoutes = require('./routes/auth')
 const cookieparser = require('cookie-parser')
 const cors = require('cors')
@@ -23,6 +26,9 @@ app.use(cookieparser())
 
 app.use('/api/home', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/likes', likeRoutes);
+app.use('/api/posts', postRoutes);
+
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);

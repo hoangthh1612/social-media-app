@@ -36,7 +36,7 @@ const login = (req, res) => {
 
         //
         const { password, ...others } = data[0];
-        const token = jwt.sign({id: data[0].id}, "serectKey");
+        const token = jwt.sign({id: data[0].id}, "secretKey");
         // set cookie value
         res.cookie("accessToken", token, {
             httpOnly: true,
