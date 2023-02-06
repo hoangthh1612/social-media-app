@@ -50,7 +50,7 @@ const Post = ({ post }) => {
             Share
           </div>
         </div>
-        {commentOpen && <Comments />}
+        {commentOpen && <Comments postid={post.id}/>}
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ const getPosts = (req, res) => {
     jwt.verify(token, "secretKey", (err, userInfo) => {
         if(err) return res.status(403).json("Token is not valid");
         console.log(userInfo);
-        const q = `select p.*, u.id as userid, username, name from posts as p join users as u on (u.id = p.userId) 
+        const q = `select p.*, u.id as userid, username, name from posts as p join users as u on (u.id = p.userid) 
         left join relationships as r on (p.userid = r.followedUserid) WHERE r.followerUserid = ? OR p.userid = ?
         order by p.createdAt DESC`;
         db.query(q, [userInfo.id, userInfo.id], (err, data) => {

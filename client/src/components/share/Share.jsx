@@ -14,6 +14,17 @@ import makeRequest from "../../axios";
 const Share = () => {
   const [ file, setFile ] = useState(null)
   const [ desc, setDesc ] = useState("")
+  const upload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await makeRequest.post("/upload", formData);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const {currentUser} = useContext(AuthContext)
   const queryClient = useQueryClient()
 
@@ -23,12 +34,14 @@ const Share = () => {
     
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries("[posts]");
     },
   })
-  const handleClick = e => {
+  const handleClick =  async (e) => {
     e.preventDefault();
-    mutation.mutate({desc});
+    let imgUrl = "";
+    if(file) imgUrl = await upload();
+    mutation.mutate({desc, img :imgUrl });
   }
   return (
     <div className="share">
@@ -39,13 +52,13 @@ const Share = () => {
             alt=""
           />
           <input type="text" placeholder={`What's on your mind ${currentUser.name}?`} 
-          onChange={e=>setDesc(e.target.value)} />
+          onChange={(e)=>setDesc(e.target.value)} />
         </div>
         <hr />
         <div className="bottom">
           <div className="left">
             <input type="file" id="file" style={{display:"none"}} 
-             onChange={e=>setFile(e.target.files[0])} />
+             onChange={(e) =>setFile(e.target.files[0])} />
             <label htmlFor="file">
               <div className="item">
                 <img src={Image} alt="" />
