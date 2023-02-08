@@ -10,6 +10,7 @@ const multer = require('multer')
 const cors = require('cors')
 const app = express();
 const port = 8000;
+const relationshipRoutes = require('./routes/relationships')
 
 //middlewares
 app.use(express.urlencoded({extended: true}));
@@ -46,6 +47,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/likes', likeRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRouter);
+app.use('/api/relationships', relationshipRoutes);
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
